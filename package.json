@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "scripts": {
+    "dev:web": "npm --filter web dev",
+    "dev:api": "npm --filter api start:dev",
+    "dev": "npx concurrently \"npm --prefix apps/web run dev\" \"npm --prefix apps/api run start:dev\""
+  }
+}
