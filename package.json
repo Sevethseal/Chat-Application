@@ -1,10 +1,15 @@
 {
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "prisma": "^6.8.2"
   },
   "scripts": {
     "dev:web": "npm --filter web dev",
     "dev:api": "npm --filter api start:dev",
     "dev": "npx concurrently \"npm --prefix apps/web run dev\" \"npm --prefix apps/api run start:dev\""
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "@supabase/supabase-js": "^2.49.7"
   }
 }
