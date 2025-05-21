@@ -4,6 +4,7 @@
     "prisma": "^6.8.2"
   },
   "scripts": {
+    "build": "prisma generate && npm --prefix apps/web run build",
     "dev:web": "npm --filter web dev",
     "dev:api": "npm --filter api start:dev",
     "dev": "npx concurrently \"npm --prefix apps/web run dev\" \"npm --prefix apps/api run start:dev\""
