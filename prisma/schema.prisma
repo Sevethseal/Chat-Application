@@ -11,11 +11,10 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = "postgresql://postgres:-k8-%23RSvm5-2n-7@db.mobhgsgpovvqbrwteoiv.supabase.co:5432/postgres"
-  directUrl = "postgresql://postgres.mobhgsgpovvqbrwteoiv:-k8-%23RSvm5-2n-7@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
 }
-
         
 
 enum UserRole {
