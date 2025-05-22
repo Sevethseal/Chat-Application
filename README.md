@@ -1,4 +1,4 @@
-# Chat Application
+# Social Media Login
 
 A modern chat and marketplace application built with Next.js, Supabase, Prisma, and deployed on Vercel. Users can log in with Google OAuth, view products in a grid, chat with sellers in real time, and log out securely.
 
