@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,7 @@ export default function ChatHistory() {
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">Chat History</h1>
       <ul className="space-y-2">
-        {chats.map((c) => (
+        {chats.map((c: any) => (
           <li key={c.id}>
             <button
               className="w-full text-left p-3 border rounded hover:bg-gray-50"
