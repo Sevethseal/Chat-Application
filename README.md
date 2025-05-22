@@ -11,7 +11,7 @@ E-commerce application with social media login
 * **Social Login**: Google OAuth via Supabase Auth
 * **Logout**: Secure session termination with a logout button in the navigation bar
 * **Product Listing**: Responsive grid of products with dummy data for UI showcase
-* **Real-time Chat**: Initiate chats with sellers via a built‑in chat window
+
 
 ## Tech Stack
 
