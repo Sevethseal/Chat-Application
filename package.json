@@ -1,20 +1,26 @@
+
 {
-  "devDependencies": {
-    "concurrently": "^9.1.2",
-    "prisma": "^6.8.2"
-  },
-   "workspaces": [
-   "apps/web",
-   "apps/api"
- ],
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/api"
+  ],
   "scripts": {
-    "build": "prisma generate && npm --prefix apps/web run build",
-    "dev:web": "npm --filter web dev",
-    "dev:api": "npm --filter api start:dev",
-    "dev": "npx concurrently \"npm --prefix apps/web run dev\" \"npm --prefix apps/api run start:dev\""
+
+    "build": "npm run build:api && npm run build:web",
+    "build:web": "npm --prefix apps/web run build",
+    "build:api": "npm --prefix apps/api run build",
+
+    "dev": "npx concurrently \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev:api": "npm --prefix apps/api run dev"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",
     "@supabase/supabase-js": "^2.49.7"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prisma": "^6.8.2"
   }
 }
