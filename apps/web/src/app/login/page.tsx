@@ -27,7 +27,7 @@ export default function LoginPage() {
         </p>
         <button
           onClick={handleGoogleSignin}
-          className="flex items-center justify-center w-full py-3 bg-red-600 text-white uppercase font-semibold rounded-full tracking-wide hover:bg-red-700 transition"
+          className="flex items-center justify-center w-full py-3 bg-red-600 text-white uppercase font-semibold rounded-full tracking-wide hover:bg-red-700 transition cursor-pointer"
         >
           <Image
             src={google}
