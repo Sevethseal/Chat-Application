@@ -1,11 +1,21 @@
 "use client";
 
+import React, { useEffect } from "react";
 import Image from "next/image";
 import google from "../../../public/google.png";
-
 import { supabase } from "../supabaseClient";
 
 export default function LoginPage() {
+  // On mount, grab ?ref=ID and store in cookie for 7 days
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) {
+      const maxAge = 7 * 24 * 60 * 60; // 7 days in seconds
+      document.cookie = `referrer=${encodeURIComponent(ref)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    }
+  }, []);
+
   async function handleGoogleSignin() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",

@@ -1,7 +1,9 @@
 // app/products/page.tsx
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import suit from "../../../public/suit.jpeg";
 import Image from "next/image";
+import { supabase } from "../supabaseClient";
 
 const categories = ["Accessories", "Bijoux", "Sacs", "Chaussures", "Montres"];
 
@@ -27,6 +29,43 @@ const products = Array.from({ length: 8 }).map((_, i) => ({
 }));
 
 export default function ProductsPage() {
+  useEffect(() => {
+    async function ensureUser() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) return;
+
+      // 1️⃣ read the cookie named `referrer`
+      const cookies = document.cookie
+        .split("; ")
+        .reduce<Record<string, string>>((acc, cur) => {
+          const [k, v] = cur.split("=");
+          acc[k] = decodeURIComponent(v);
+          return acc;
+        }, {});
+      const referrerCode = cookies["referrer"] || "";
+      console.log(referrerCode, "referrerCode");
+
+      // 2️⃣ send supabaseId, email, and optional referrerCode
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/user/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          supabaseId: session.user.id,
+          email: session.user.email,
+          referralCode: referrerCode, // may be empty string
+        }),
+      });
+
+      // 3️⃣ clear the cookie so they don’t keep re-referring themselves
+      document.cookie = "referrer=; max-age=0; path=/; SameSite=Lax";
+    }
+    ensureUser();
+  }, []);
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="sr-only">Products</h1>
