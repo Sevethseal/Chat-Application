@@ -48,18 +48,21 @@ export default function ProductsPage() {
       console.log(referrerCode, "referrerCode");
 
       // 2️⃣ send supabaseId, email, and optional referrerCode
-      await fetch(`http://localhost:4000/users/user/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
-        },
-        body: JSON.stringify({
-          supabaseId: session.user.id,
-          email: session.user.email,
-          referralCode: referrerCode, // may be empty string
-        }),
-      });
+      await fetch(
+        `https://your-api-service-name.up.railway.app/users/user/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            supabaseId: session.user.id,
+            email: session.user.email,
+            referralCode: referrerCode, // may be empty string
+          }),
+        }
+      );
 
       // 3️⃣ clear the cookie so they don’t keep re-referring themselves
       document.cookie = "referrer=; max-age=0; path=/; SameSite=Lax";
