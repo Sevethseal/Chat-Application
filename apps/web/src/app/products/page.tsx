@@ -49,7 +49,7 @@ export default function ProductsPage() {
 
       // 2️⃣ send supabaseId, email, and optional referrerCode
       await fetch(
-        `https://your-api-service-name.up.railway.app/users/user/create`,
+        `https://chat-application-production-7a87.up.railway.app//users/user/create`,
         {
           method: "POST",
           headers: {
