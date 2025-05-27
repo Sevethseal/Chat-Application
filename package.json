@@ -6,6 +6,7 @@
     "apps/api"
   ],
   "scripts": {
+    "postinstall": "npm --prefix apps/api run prisma:generate",
     "build": "npm run build:api && npm run build:web",
     "build:web": "npm --prefix apps/web run build",
     "build:api": "npm --prefix apps/api run build",
