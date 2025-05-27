@@ -9,7 +9,7 @@ async function bootstrap() {
 
   // Listen on port 4000 (or whatever you chose)
   await app.listen(4000);
-  console.log(`🚀 API running on http://localhost:4000`);
+  console.log(`🚀 API running on https://your-api-service-name.up.railway.app`);
 }
 
 bootstrap();
