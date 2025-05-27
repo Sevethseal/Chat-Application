@@ -34,12 +34,9 @@ export default function ProfilePage() {
         return;
       }
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/user`,
-          {
-            headers: { Authorization: `Bearer ${session.access_token}` },
-          }
-        );
+        const res = await fetch(`http://localhost:4000/users/user`, {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
         if (!res.ok) {
           setReferralCode("");
         } else {
@@ -65,7 +62,7 @@ export default function ProfilePage() {
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/referrals?code=${encodeURIComponent(referralCode)}`,
+          `http://localhost:4000/users/referrals?code=${encodeURIComponent(referralCode)}`,
           { headers: { Authorization: `Bearer ${session.access_token}` } }
         );
         if (res.ok) {
@@ -92,7 +89,7 @@ export default function ProfilePage() {
       if (!session) throw new Error("Not authenticated");
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/me/referral-code`,
+        `http://localhost:4000/users/me/referral-code`,
         {
           method: "PATCH",
           headers: {
