@@ -48,7 +48,7 @@ export default function ProductsPage() {
       console.log(referrerCode, "referrerCode");
 
       // 2️⃣ send supabaseId, email, and optional referrerCode
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/user/create`, {
+      await fetch(`http://localhost:4000/users/user/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

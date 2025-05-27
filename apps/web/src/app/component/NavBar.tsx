@@ -40,6 +40,10 @@ export default function Navbar() {
     router.replace("/login");
   };
 
+  const goToProfile = () => {
+    router.push("/profile");
+  };
+
   return (
     <nav className="w-full bg-white border-b px-6 py-4 flex justify-between items-center">
       <div className="flex items-center space-x-4">
@@ -50,13 +54,31 @@ export default function Navbar() {
           </div>
         )}
       </div>
+
       {!isPublic && (
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors cursor-pointer focus:outline-none"
-        >
-          Logout
-        </button>
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => router.push("/products")}
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors focus:outline-none cursor-pointer"
+          >
+            Products
+          </button>
+          {/* Profile Button */}
+          <button
+            onClick={goToProfile}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors focus:outline-none cursor-pointer"
+          >
+            Profile
+          </button>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors focus:outline-none cursor-pointer"
+          >
+            Logout
+          </button>
+        </div>
       )}
     </nav>
   );
