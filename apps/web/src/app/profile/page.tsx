@@ -3,9 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "../supabaseClient";
+import emailjs from "emailjs-com";
+
+// Initialize EmailJS with your public key (USER_ID)
+emailjs.init("IPT2DE1xzTyfcGVTw");
 
 export default function ProfilePage() {
-  // Referral code state (empty string until fetched or created)
+  // Existing states
   const [referralCode, setReferralCode] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -18,12 +22,17 @@ export default function ProfilePage() {
     }>
   >([]);
 
+  // New states for email input & status
+  const [friendEmail, setFriendEmail] = useState("");
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailSuccess, setEmailSuccess] = useState(false);
+
   const origin = typeof window !== "undefined" ? window.location.origin : "";
   const referralLink = referralCode
     ? `${origin}/login?ref=${referralCode}`
     : "";
 
-  // Fetch existing referral code on mount
+  // --- Fetch existing referral code ---
   useEffect(() => {
     async function loadReferral() {
       const {
@@ -36,15 +45,13 @@ export default function ProfilePage() {
       try {
         const res = await fetch(
           `https://chat-application-production-d315.up.railway.app/users/user`,
-          {
-            headers: { Authorization: `Bearer ${session.access_token}` },
-          }
+          { headers: { Authorization: `Bearer ${session.access_token}` } }
         );
-        if (!res.ok) {
-          setReferralCode("");
-        } else {
+        if (res.ok) {
           const data = await res.json();
           setReferralCode(data.referralCode || "");
+        } else {
+          setReferralCode("");
         }
       } catch (err) {
         console.error("Failed to fetch referral code:", err);
@@ -52,9 +59,9 @@ export default function ProfilePage() {
       }
     }
     loadReferral();
-  }, [referralCode]);
+  }, []); // only on mount
 
-  // Fetch users who signed up with this referral code
+  // --- Fetch referred users ---
   useEffect(() => {
     async function loadReferredUsers() {
       if (!referralCode) return;
@@ -65,7 +72,9 @@ export default function ProfilePage() {
 
       try {
         const res = await fetch(
-          `https://chat-application-production-d315.up.railway.app/users/referrals?code=${encodeURIComponent(referralCode)}`,
+          `https://chat-application-production-d315.up.railway.app/users/referrals?code=${encodeURIComponent(
+            referralCode
+          )}`,
           { headers: { Authorization: `Bearer ${session.access_token}` } }
         );
         if (res.ok) {
@@ -81,7 +90,7 @@ export default function ProfilePage() {
     loadReferredUsers();
   }, [referralCode]);
 
-  // Handler to generate and persist a new referral code
+  // --- Generate or regenerate referral code ---
   async function handleGenerateNewCode() {
     setLoading(true);
     try {
@@ -116,7 +125,7 @@ export default function ProfilePage() {
     }
   }
 
-  // Handler to copy referral link
+  // --- Copy referral link to clipboard ---
   async function handleCopyLink() {
     if (!referralLink) return;
     try {
@@ -125,6 +134,34 @@ export default function ProfilePage() {
       setTimeout(() => setCopySuccess(false), 2000);
     } catch (err) {
       console.error("Failed to copy: ", err);
+    }
+  }
+
+  // --- Send referral email via EmailJS ---
+  async function handleSendEmail() {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!friendEmail || !referralCode) return;
+    setSendingEmail(true);
+    setEmailSuccess(false);
+    try {
+      await emailjs.send(
+        "service_flivwth",
+        "template_yb7dmo7",
+        {
+          email: friendEmail,
+          referralCode: referralCode,
+          hostEmail: session?.user.email,
+        },
+        "IPT2DE1xzTyfcGVTw"
+      );
+      setEmailSuccess(true);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      alert("Failed to send email.");
+    } finally {
+      setSendingEmail(false);
     }
   }
 
@@ -151,25 +188,53 @@ export default function ProfilePage() {
         </div>
 
         {referralCode && (
-          <div className="mt-4">
-            <p className="text-gray-600 mb-2">
-              Share this link to refer friends:
-            </p>
-            <div className="flex items-center gap-2">
-              <a
-                href={referralLink}
-                className="text-blue-600 underline break-all"
-              >
-                {referralLink}
-              </a>
-              <button
-                onClick={handleCopyLink}
-                className="py-1 px-3 bg-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-300 transition"
-              >
-                {copySuccess ? "Copied!" : "Copy"}
-              </button>
+          <>
+            <div className="mt-4">
+              <p className="text-gray-600 mb-2">
+                Share this link to refer friends:
+              </p>
+              <div className="flex items-center gap-2">
+                <a
+                  href={referralLink}
+                  className="text-blue-600 underline break-all"
+                >
+                  {referralLink}
+                </a>
+                <button
+                  onClick={handleCopyLink}
+                  className="py-1 px-3 bg-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-300 transition"
+                >
+                  {copySuccess ? "Copied!" : "Copy"}
+                </button>
+              </div>
             </div>
-          </div>
+
+            {/* Send to a Friend */}
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-2">Send to a Friend</h3>
+              <div className="flex flex-col sm:flex-row items-center gap-2">
+                <input
+                  type="email"
+                  placeholder="friend@example.com"
+                  value={friendEmail}
+                  onChange={(e) => setFriendEmail(e.target.value)}
+                  className="w-full sm:w-auto flex-grow border border-gray-300 rounded-lg py-2 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <button
+                  onClick={handleSendEmail}
+                  disabled={!referralCode || sendingEmail}
+                  className="py-2 px-4 bg-black text-white rounded-lg uppercase text-sm hover:bg-gray-800 transition disabled:opacity-50"
+                >
+                  {sendingEmail ? "Sending..." : "Send Email"}
+                </button>
+              </div>
+              {emailSuccess && (
+                <p className="text-green-600 mt-2">
+                  Referral email sent to {friendEmail}!
+                </p>
+              )}
+            </div>
+          </>
         )}
       </section>
 
