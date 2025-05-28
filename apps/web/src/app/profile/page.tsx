@@ -35,7 +35,7 @@ export default function ProfilePage() {
       }
       try {
         const res = await fetch(
-          `https://chat-application-production-d315.up.railway.app//users/user`,
+          `https://chat-application-production-d315.up.railway.app/users/user`,
           {
             headers: { Authorization: `Bearer ${session.access_token}` },
           }
