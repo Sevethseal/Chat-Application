@@ -35,7 +35,7 @@ export default function ProfilePage() {
       }
       try {
         const res = await fetch(
-          `https://chat-application-production-7a87.up.railway.app//users/user`,
+          `https://chat-application-production-d315.up.railway.app//users/user`,
           {
             headers: { Authorization: `Bearer ${session.access_token}` },
           }
@@ -65,7 +65,7 @@ export default function ProfilePage() {
 
       try {
         const res = await fetch(
-          `https://chat-application-production-7a87.up.railway.app//users/referrals?code=${encodeURIComponent(referralCode)}`,
+          `https://chat-application-production-d315.up.railway.app/users/referrals?code=${encodeURIComponent(referralCode)}`,
           { headers: { Authorization: `Bearer ${session.access_token}` } }
         );
         if (res.ok) {
@@ -92,7 +92,7 @@ export default function ProfilePage() {
       if (!session) throw new Error("Not authenticated");
 
       const response = await fetch(
-        `https://chat-application-production-7a87.up.railway.app//users/me/referral-code`,
+        `https://chat-application-production-d315.up.railway.app//users/me/referral-code`,
         {
           method: "PATCH",
           headers: {
