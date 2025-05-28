@@ -92,7 +92,7 @@ export default function ProfilePage() {
       if (!session) throw new Error("Not authenticated");
 
       const response = await fetch(
-        `https://chat-application-production-d315.up.railway.app//users/me/referral-code`,
+        `https://chat-application-production-d315.up.railway.app/users/me/referral-code`,
         {
           method: "PATCH",
           headers: {
