@@ -68,3 +68,8 @@ This repository contains an e-commerce web application built with Next.js and Su
 ## License
 
 MIT © Your Name
+
+<img width="1895" height="721" alt="image" src="https://github.com/user-attachments/assets/3f9207d0-dcda-4afd-8d07-73702bf0bd76" />
+<img width="653" height="389" alt="image" src="https://github.com/user-attachments/assets/00c407ce-3412-4845-84e7-7e60800a341a" />
+
+
