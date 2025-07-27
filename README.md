@@ -2,9 +2,8 @@
 
 E-commerce application with social media login
 
-## Live Demo
 
-[View the live app on Vercel](https://chat-application-pi-eosin.vercel.app/login)
+
 
 ## Features
 
