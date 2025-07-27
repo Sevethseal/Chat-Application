@@ -1,16 +1,17 @@
-# Social Media Login
+## E-commerce Application with Social Login & Referral System
 
-E-commerce application with social media login
+This repository contains an e-commerce web application built with Next.js and Supabase, featuring Google social login, a responsive product listing UI, and a built-in referral program.
 
-
-
+---
 
 ## Features
 
-* **Social Login**: Google OAuth via Supabase Auth
-* **Logout**: Secure session termination with a logout button in the navigation bar
-* **Product Listing**: Responsive grid of products with dummy data for UI showcase
+- **Social Login**: Sign in with Google via Supabase Auth.  
+- **Logout**: Secure session termination with a logout button in the navigation bar.  
+- **Product Listing**: Responsive grid of products with dummy data for UI showcase.  
+- **Referral System**: Generate and share a personal referral code to invite friends, track new sign-ups.
 
+---
 
 ## Tech Stack
 
@@ -21,7 +22,6 @@ E-commerce application with social media login
 | Database       | Supabase Postgres        |
 | ORM            | Prisma Client            |
 | Deployment     | Vercel                   |
-
 ## Getting Started
 
 1. **Clone the repo**:
